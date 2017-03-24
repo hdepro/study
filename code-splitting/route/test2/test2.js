@@ -3,7 +3,6 @@
  */
 
 import React,{Component} from 'react'
-import {Link} from 'react-router'
 
 class Test2 extends Component{
     render(){

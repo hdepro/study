@@ -9,8 +9,10 @@ const routes = {
     path: 'test',
     indexRoute:{
         getComponent: (location, cb) => {
+            console.log("test indexRoute getComponent");
             return require.ensure([], (require) => {
-                cb(null, require('./components/test'))
+                console.log("ensure test indexRoute");
+                cb(null, require('./route/test0'))
             })
         }
     },
@@ -23,7 +25,9 @@ const routes = {
         })
     },
     getComponent(nextState, cb) {
+        console.log("test getComponent");
         require.ensure([], (require) => {
+            console.log("ensure test getComponent");
             cb(null, require('./components/test'))
         })
     }
