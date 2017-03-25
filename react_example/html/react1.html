@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="container"></div>
+<script src="../javascript/react1.js"></script>
+<script>
+    function hello(){
+        alert("hello");
+    }
+    var element = React.createElement('div',{id:'test',onclick:hello},'click me');
+    React.render(element,document.getElementById('container'));
+</script>
+</body>
+</html>

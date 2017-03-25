@@ -1,6 +1,5 @@
 var path = require('path');
 var webpack = require('webpack');
-var historyApiFallback = require('connect-history-api-fallback');
 var node_modules = path.resolve('../', 'node_modules');
 var path_React = path.resolve(node_modules, 'react/dist/react.min.js');
 var path_ReactDOM = path.resolve(node_modules, 'react-dom/dist/react-dom.min.js');
@@ -23,7 +22,7 @@ module.exports = {
         //},
     },
     entry:{
-        setState:'./javascript/setState.js'
+        "setState": './javascript/setState.js'
     },
   resolve: {
     alias: {
@@ -37,7 +36,7 @@ module.exports = {
   output: {
     path: path.join(__dirname, '/dist'),
     filename: '[name].js',
-    publicPath: 'http://localhost:8080'
+    //publicPath: 'http://localhost:8080'
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin()
