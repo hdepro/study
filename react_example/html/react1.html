@@ -6,13 +6,37 @@
 </head>
 <body>
 <div id="container"></div>
+<script src="../javascript/Event.js"></script>
 <script src="../javascript/react1.js"></script>
 <script>
-    function hello(){
-        alert("hello");
-    }
-    var element = React.createElement('div',{id:'test',onclick:hello},'click me');
-    React.render(element,document.getElementById('container'));
+//    React.render("hello world",document.getElementById('container'));
+//
+//
+//    function hello(){
+//        alert("hello");
+//    }
+//    var element = React.createElement('div',{id:'test',onclick:hello},'click me');
+//    React.render(element,document.getElementById('container'));
+
+
+    var HelloMessage = React.createClass({
+        getInitialState(){
+            return {type:'say:'};
+        },
+        changeType(){
+            this.setState({type:'shout: '});
+        },
+        componentWillMount(){
+            console.log("我要开始渲染了");
+        },
+        componentDidMount(){
+            console.log("我已经渲染完成了");
+        },
+        render(){
+            return React.createElement("div",{onclick:this.changeType},this.state.type,'hello ',this.props.name);
+        }
+    });
+    React.render(React.createElement(HelloMessage,{name:'heben'},null),document.getElementById('container'));
 </script>
 </body>
 </html>
