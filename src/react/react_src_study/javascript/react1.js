@@ -92,7 +92,6 @@ ReactDOMComponent.prototype.mountComponent=function(rootID){
     for(var propKey in props) {
         if (/^on[A-Za-z]/.test(propKey)) {
             var eventType = propKey.replace('on', '');
-            console.log(eventType);
             EventHandles.delegate(document, "[data-reactid='"+this._rootNodeID + "']", eventType, props[propKey]);
         }
         if (props[propKey] && propKey !== 'children' && !/^on[A-Za-z]/.test(propKey)) {
@@ -128,12 +127,14 @@ ReactDOMComponent.prototype.receiveComponent=function(nextElement){
 
 ReactDOMComponent.prototype._updateDOMProperties=function(lastProps,nextProps){
     var propKey;
+    console.log(lastProps,nextProps);
     for(propKey in lastProps){
         if(nextProps.hasOwnProperty(propKey) || !lastProps.hasOwnProperty(propKey)){
             continue;
         }
         if(/^on[a-zA-Z]/.test(propKey)){
-            document.querySelector("[data-reactid='"+this._rootNodeID+"']").removeEventListener(propKey,lastProps[propKey]);
+            var eventType = propKey.replace('on', '');
+            EventHandles.undelegate(document, eventType,lastProps[propKey]);
         }
         document.querySelector("[data-reactid='"+this._rootNodeID+"']").removeAttribute(propKey);
     }
@@ -141,7 +142,7 @@ ReactDOMComponent.prototype._updateDOMProperties=function(lastProps,nextProps){
         if(nextProps.hasOwnProperty(propKey) && nextProps[propKey]!=lastProps[propKey]){
             if(propKey === 'children') continue;
             if(/^on[a-zA-Z]/.test(propKey)){
-                var eventType=propKey.replace('on','');
+                eventType=propKey.replace('on','');
                 EventHandles.delegate(document, "[data-reactid='"+this._rootNodeID + "']", eventType, nextProps[propKey]);
             }else{
                 document.querySelector("[data-reactid='"+this._rootNodeID+"']").setAttribute(propKey,nextProps[propKey]);
@@ -175,10 +176,14 @@ ReactDOMComponent.prototype._diff=function(diffQueue,nextChildrenElements){
     //生成新的子节点map
     var nextChildren = generateComponentChildren(prevChildren,nextChildrenElements);
     self._renderedChildren = [];
-    nextChildren.forEach(function(instance,index){
+    Array.prototype.slice.call(Object.assign({},nextChildren,{length:Object.keys(nextChildren).length}),0).forEach(function(instance,index){
         self._renderedChildren.push(instance);
     });
+    console.log("self = "+JSON.stringify(self._currentElement));
+    console.log("prevChildren = "+JSON.stringify(prevChildren));
+    console.log("nextChildren = "+JSON.stringify(nextChildren));
 
+    var lastIndex=0;
     var nextIndex=0;
     for(var name in nextChildren){
         if(!nextChildren.hasOwnProperty(name)){
@@ -187,7 +192,7 @@ ReactDOMComponent.prototype._diff=function(diffQueue,nextChildrenElements){
         var prevChild = prevChildren[name];
         var nextChild = nextChildren[name];
         if(prevChild === nextChild){
-            diffQueue.push({
+            prevChild._mountIndex > nextIndex && diffQueue.push({
                 parentId:self._rootNodeID,
                 parentNode:document.querySelector("[data-reactid='"+self._rootNodeID+"']"),
                 type:UPDATE_TYPES.MOVE_EXISTING,
@@ -203,9 +208,9 @@ ReactDOMComponent.prototype._diff=function(diffQueue,nextChildrenElements){
                     fromIndex:prevChild._mountIndex,
                     toIndex:null
                 });
-
-                if(prevChild._rootNodeID){
-                    document.querySelector("."+prevChild._rootNodeID).removeEventListener();
+                console.log("prevChild._rootNodeID 1 = "+prevChild._rootNodeID);
+                if(prevChild._rootNodeID!=undefined){
+                    EventHandles.undelegate(prevChild,prevChild._currentElement.props);
                 }
             }
 
@@ -214,8 +219,8 @@ ReactDOMComponent.prototype._diff=function(diffQueue,nextChildrenElements){
                 parentNode:document.querySelector("[data-reactid='"+self._rootNodeID+"']"),
                 type:UPDATE_TYPES.INSERT_MARKUP,
                 fromIndex:null,
-                nextIndex:nextIndex,
-                makeup:nextChild.mountComponent()
+                toIndex:nextIndex,
+                makeup:nextChild.mountComponent(self._rootNodeID+'.'+nextIndex)
             })
         }
         nextChild._mountIndex = nextIndex;
@@ -231,12 +236,19 @@ ReactDOMComponent.prototype._diff=function(diffQueue,nextChildrenElements){
                 fromIndex:prevChild._mountIndex,
                 toIndex:null
             });
-            if(prevChildren[name]._rootNodeID){
-                document.querySelector("."+prevChildren[name]._rootNodeID).removeEventListener();
+            console.log("prevChild._rootNodeID 2 = "+prevChild._rootNodeID);
+            if(prevChildren[name]._rootNodeID!=undefined){
+                EventHandles.undelegate(prevChild,prevChild._currentElement.props);
             }
         }
     }
 };
+
+function updateNode(parentNode,node,index){
+    var target = parentNode.childNodes.item(index);
+    console.log(parentNode,node,index,target);
+    target?parentNode.insertBefore(node,target):parentNode.appendChild(node);
+}
 
 ReactDOMComponent.prototype._patch=function(diffQueue){
     var update,len=diffQueue.length;
@@ -253,15 +265,20 @@ ReactDOMComponent.prototype._patch=function(diffQueue){
         }
     }
     deleteChildren.forEach(function(deleteChild){
-
+        deleteChild.parentNode.removeChild(deleteChild);
     });
-    while(diffQueue.length){
+    for(var i=0;i<len;i++){
+        update = diffQueue[i];
         switch(update.type){
             case UPDATE_TYPES.REMOVE_NODE:
                 break;
             case UPDATE_TYPES.INSERT_MARKUP:
+                var dom = document.createElement("div");
+                dom.innerHTML = update.makeup;
+                updateNode(update.parentNode,dom.childNodes[0],update.toIndex);
                 break;
             case UPDATE_TYPES.MOVE_EXISTING:
+                updateNode(update.parentNode,initialChildren[update.parentId][update.fromIndex],update.toIndex);
                 break;
             default:
         }

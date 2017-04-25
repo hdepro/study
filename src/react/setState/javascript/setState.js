@@ -3,6 +3,7 @@
  */
 import React from 'react'
 import ReactDOM from 'react-dom'
+import {connect} from 'react-redux'
 
 function FormattedDate(props) {
   return <h2>It is {props.date}.</h2>;

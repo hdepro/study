@@ -14,6 +14,7 @@ EventHandles.bindEvent = function(element,eventType,callback){
 };
 
 EventHandles.delegate = function(element,selector,eventType,callback){     //element是真实节点
+    console.log("delegate eventType = "+eventType);
     function delegated(event){
         var target = element.querySelector(selector);
         console.log(target.contains(event.target));
@@ -22,6 +23,19 @@ EventHandles.delegate = function(element,selector,eventType,callback){     //ele
         }
     }
     element.addEventListener(eventType,delegated);
+};
+
+EventHandles.undelegate = function(element,eventType,callback,props){     //element是真实节点
+    console.log("undelegate eventType = "+eventType);
+    if(props){
+        Object.keys(props).forEach((propKey) => {
+            if(/^on[a-zA-Z]/.test(propKey)){
+                element.removeEventListener(propKey,props[propKey]);
+            }
+        })
+    }else{
+        element.removeEventListener(eventType,callback);
+    }
 };
 
 

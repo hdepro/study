@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="container"></div>
+<script src="javascript/Event.js"></script>
+<script src="javascript/react1.js"></script>
+<script>
+//    React.render("hello world",document.getElementById('container'));
+//
+//
+//    function hello(){
+//        alert("hello");
+//    }
+//    var element = React.createElement('div',{id:'test',onclick:hello},'click me');
+//    React.render(element,document.getElementById('container'));
+
+
+//    var HelloMessage = React.createClass({
+//        getInitialState(){
+//            return {type:'say:'};
+//        },
+//        changeType(){
+//            this.setState({type:'shout: '});
+//        },
+//        componentWillMount(){
+//            console.log("我要开始渲染了");
+//        },
+//        componentDidMount(){
+//            console.log("我已经渲染完成了");
+//        },
+//        render(){
+//            return React.createElement("div",{onclick:this.changeType},this.state.type,'hello ',this.props.name);
+//        }
+//    });
+//    React.render(React.createElement(HelloMessage,{name:'heben'},null),document.getElementById('container'));
+
+var TodoList = React.createClass({
+    getInitialState: function() {
+        return {items: []};
+    },
+    add:function(){
+        var text = document.querySelector("input").value;
+        console.log("value text = "+text);
+        var nextItems = this.state.items.concat([text]);
+        this.setState({items: nextItems, text: ''});
+    },
+    onChange: function(e) {
+        this.setState({text: e.target.value});
+    },
+    render: function() {
+        var createItem = function(itemText) {
+            return React.createElement("div", null, itemText);
+        };
+
+        var lists = this.state.items.map(createItem);
+        var input = React.createElement("input");
+        var button = React.createElement("button", {onclick: this.add.bind(this)}, 'Add#' + (this.state.items.length + 1))
+        //var children = lists.concat([input,button])
+        var children = [input,button].concat(lists);
+
+        return React.createElement("div", null,children);
+    }
+});
+React.render(React.createElement(TodoList), document.getElementById("container"));
+</script>
+</body>
+</html>

@@ -19,8 +19,8 @@ const routes = {
     getChildRoutes(nextState, cb) {
         require.ensure([], (require) => {
             cb(null, [
-                require('./route/test1'),
-                require('./route/test2')
+                require('./route/test1/index'),
+                require('./route/test2/index')
             ])
         })
     },
