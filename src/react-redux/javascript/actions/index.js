@@ -1,7 +1,7 @@
 /**
  * Created by heben on 2017/4/23.
  */
-
+import fetch from 'isomorphic-fetch'
 import {ADD_DATA,GET_DATA} from '../constants/ActionTypes'
 
 

@@ -1,7 +1,7 @@
 /**
  * Created by heben on 2017/4/23.
  */
-
+import 'babel-polyfill'
 import React from'react'
 import ReactDOM from'react-dom'
 //import {createStore} from 'redux'

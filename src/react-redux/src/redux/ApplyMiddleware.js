@@ -16,5 +16,6 @@ export function applyMiddleware(...middlewares){
             ...store,
             dispatch
         }
+        //return Object.assign(store,{dispatch});
     }
 }
