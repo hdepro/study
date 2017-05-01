@@ -3,7 +3,7 @@
  */
 
 //import {combineReducers} from 'redux'
-import {combineReducers} from '../../src/redux/CombineReducers'
+import {combineReducers} from '../../../../src/redux/CombineReducers'
 import {ADD_DATA,GET_DATA} from '../constants/ActionTypes'
 
 function reducer(state=[],action){

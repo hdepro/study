@@ -23,7 +23,12 @@ let obj = {
         "babel-preset-es2015": "^6.24.1",
         "babel-preset-react": "^6.24.1",
         "babel-preset-stage-0": "^6.24.1",
-        "webpack": "^2.4.1"
+        "webpack": "^2.4.1",
+        "ejs": "^2.5.6",                    //express的渲染模板引擎
+        "body-parser": "^1.17.1",            //解析request的body
+        "babel-plugin-import": "^1.1.1",    //设置antd的按需加载
+        "css-loader": "^0.27.3",             //加载css文件，识别import '.css'
+        "style-loader": "^0.16.1",           //把样式应用到元素上，通常和css-loader连用，并且配置在前面['style-loader','css-loader']
     },
     "dependencies": {
         "babel-polyfill": "^6.23.0",    //转码es6的API,如Iterator、Generator、Set、Maps、Proxy、Reflect、Symbol、Promise等全局对象，以及一些定义在全局对象上的方法（比如Object.assign),Array.from

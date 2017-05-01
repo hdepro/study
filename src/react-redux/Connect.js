@@ -12,7 +12,7 @@ export function connect(mapStateToProps,mapDispatchToProps,mergeProps){
                 super(props);
                 let store = context.store;
                 console.log(store);
-                let mapProps = mapStateToProps(store.getState());
+                let mapProps = mapStateToProps?mapStateToProps(store.getState()):{};
                 this.unsubscribe = store.subscribe(this.onStateChanged.bind(this,store));
                 let mapActions = mapDispatchToProps?mapDispatchToProps(store.dispatch):{dispatch:store.dispatch};
                 Object.assign(

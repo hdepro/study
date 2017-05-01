@@ -29,7 +29,7 @@ export function createStore(reducer,initialState,enhance){
         return function unsubscribe(){
             if(isSubscribe){
                 isSubscribe = false;
-                let index = listener.indexOf(listener);
+                let index = currentlistener.indexOf(listener);
                 currentlistener.splice(index,1);
             }
         }

@@ -1,6 +1,6 @@
 var path = require('path');
 var webpack = require('webpack');
-var node_modules = path.resolve('../', 'node_modules');
+var node_modules = path.resolve('../../', 'node_modules');
 var path_React = path.resolve(node_modules, 'react/dist/react.min.js');
 var path_ReactDOM = path.resolve(node_modules, 'react-dom/dist/react-dom.min.js');
 var path_ReactRouter = path.resolve(node_modules, 'react-router/umd/ReactRouter.min.js');
@@ -22,7 +22,9 @@ module.exports = {
         //},
     },
     entry:{
-        "setState": './javascript/setState.js'
+        "setState": './setState/javascript/setState.js',
+        "basic": './react_test/basic/index.js',
+        "react": '../../src/react/React.js'
     },
   resolve: {
     alias: {

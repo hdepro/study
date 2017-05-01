@@ -4,7 +4,7 @@
 
 import React from 'react'
 //import {connect} from 'react-redux'
-import {connect} from '../../src/react-redux/Connect'
+import {connect} from '../../../../src/react-redux/Connect'
 
 import {get,add} from '../actions/index'
 
