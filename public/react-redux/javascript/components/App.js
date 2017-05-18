@@ -5,7 +5,10 @@
 import React from 'react'
 //import {connect} from 'react-redux'
 import {connect} from '../../../../src/react-redux/Connect'
+//import {connect} from '../../../../src/src'
 
+//import {bindActionCreators} from 'redux'
+import {bindActionCreators} from '../../../../src/redux/BindActionCreators'
 import {get,add} from '../actions/index'
 
 class App extends React.Component{
@@ -15,7 +18,7 @@ class App extends React.Component{
     }
     componentWillMount(){
         console.log("App componentWillMount");
-        this.props.dispatch(get());
+        this.props.get();
     }
     componentDidMount(){
         console.log("App componentDidMount ",this.context.store,this.props,this.state);
@@ -44,4 +47,10 @@ function mapStateToProps(state){
     }
 }
 
-export default connect(mapStateToProps)(App)
+function mapDispatchToProps(dispatch){
+    return{
+        get:bindActionCreators(get,dispatch)
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(App)

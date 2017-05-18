@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    const es  = new EventSource("/message");
+    es.onmessage = function(e) {
+        //document.write(`<p>date is ${e.data}</p>`);
+        console.log(`date is ${e.data}`);
+    };
+
+//    document.addEventListener("DOMContentLoaded", function() {
+//        var  eventSrc  = new EventSource( "/message" ),
+//            handler = function( event ) {
+//                document.write(`<p>date is ${event.data}</p>`);
+//                console.log( [ event.type, new Date(), event, event.data ] );
+//            };
+//
+//        console.log( eventSrc );
+//
+//        // Setup event handlers
+//        [ "open", "message" ].forEach( function( name ) {
+//            eventSrc.addEventListener( name, handler, false );
+//        });
+//    })
+</script>
+</body>
+</html>

@@ -3,11 +3,12 @@
  */
 
 import {storeShape} from './PropPypes'
+import React from 'react'
 
 export function connect(mapStateToProps,mapDispatchToProps,mergeProps){
-    return function(Component){
-        console.log(typeof Component,JSON.stringify(Component));
-        class component extends Component{
+    return function(WrappedComponent){
+        console.log(typeof WrappedComponent,JSON.stringify(WrappedComponent));
+        class component extends React.Component{
             constructor(props,context){
                 super(props);
                 let store = context.store;
@@ -15,11 +16,16 @@ export function connect(mapStateToProps,mapDispatchToProps,mergeProps){
                 let mapProps = mapStateToProps?mapStateToProps(store.getState()):{};
                 this.unsubscribe = store.subscribe(this.onStateChanged.bind(this,store));
                 let mapActions = mapDispatchToProps?mapDispatchToProps(store.dispatch):{dispatch:store.dispatch};
+                this.selector = {};
                 Object.assign(
+                    this.selector,
                     this.props,
                     mapProps,
                     mapActions
                 );
+            }
+            componentWillMount(){
+                console.log("connect component componentWillMount");
             }
             shouldComponentUpdate(nextProps,nextState){
                 console.log("connect shouldComponentUpdate ",nextProps,nextState,this.props,nextProps !== this.props);
@@ -28,7 +34,7 @@ export function connect(mapStateToProps,mapDispatchToProps,mergeProps){
             onStateChanged(store){
                 this.setState((prevState,props)=>{
                     console.log("connect onStateChanged ",prevState,props);
-                    Object.assign(props,mapStateToProps(store.getState()));
+                    Object.assign(this.selector,props,mapStateToProps(store.getState()));
                 })
             }
             componentWillReceiveProps(nextProps){
@@ -39,6 +45,11 @@ export function connect(mapStateToProps,mapDispatchToProps,mergeProps){
             }
             componentWillUnmount(){
                 this.unsubscribe();
+            }
+            render(){
+                return(
+                    React.createElement(WrappedComponent,this.selector)
+                )
             }
         }
         component.contextTypes = {

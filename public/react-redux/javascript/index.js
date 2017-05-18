@@ -11,6 +11,7 @@ import ReactDOM from'react-dom'
 import {createStore} from '../../../src/redux/CreateStore'
 import {applyMiddleware} from '../../../src/redux/ApplyMiddleware'
 import {Provider} from '../../../src/react-redux/Provider'
+//import {Provider} from '../../../src/src'
 
 import rootReducer from './reducers/index'
 

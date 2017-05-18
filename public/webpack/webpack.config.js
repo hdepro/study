@@ -7,28 +7,13 @@ var path_ReactRouter = path.resolve(node_modules, 'react-router/umd/ReactRouter.
 var path_polyfill = path.resolve(node_modules, 'babel-polyfill/dist/polyfill.min.js');
 
 module.exports = {
-    devServer: {
-        historyApiFallback: true,
-        hot: false,
-        //inline: true,
-        port:8081
-        //host:'0.0.0.0',
-        //proxy: {
-        //  '/commander/*': {
-        //    //target: 'http://10.1.29.250:30175',
-        //    target: 'http://localhost:9000',
-        //    secure: false
-        //  }
-        //},
-    },
+    // devServer: {
+    //     historyApiFallback: true,
+    //     hot: true,
+    //     inline: true
+    // },
     entry:{
-        "setState":[
-            'webpack-dev-server/client',
-            //'webpack-hot-middleware/client',
-            "./setState/javascript/setState.js",
-        ],
-        "basic": './react_test/basic/index.js',
-        "react": '../../src/react/React.js'
+        "index": './index.js'
     },
   resolve: {
     alias: {
@@ -45,7 +30,7 @@ module.exports = {
     //publicPath: 'http://localhost:8080'
   },
   plugins: [
-    new webpack.HotModuleReplacementPlugin()
+    //new webpack.HotModuleReplacementPlugin()
   ],
   module: {
     rules: [

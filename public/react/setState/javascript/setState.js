@@ -49,7 +49,7 @@ class Clock extends React.Component {
       <div>
         <h1>Hello, world!</h1>
         <FormattedDate date={this.state.date} />
-        <button onClick={this.handleClick}>更新</button>
+        <button onClick={this.handleClick}>更新699</button>
       </div>
     );
   }

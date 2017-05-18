@@ -1,6 +1,6 @@
 var path = require('path');
 var webpack = require('webpack');
-var node_modules = path.resolve('../../', 'node_modules');
+var node_modules = path.resolve(__dirname, 'node_modules');
 var path_React = path.resolve(node_modules, 'react/dist/react.min.js');
 var path_ReactDOM = path.resolve(node_modules, 'react-dom/dist/react-dom.min.js');
 var path_ReactRouter = path.resolve(node_modules, 'react-router/umd/ReactRouter.min.js');
@@ -13,7 +13,7 @@ module.exports = {
         inline: true
     },
     entry:{
-        "index": './javascript/index.js'
+        "index": './public/react-redux/javascript/index.js'
     },
   resolve: {
     alias: {
@@ -25,12 +25,13 @@ module.exports = {
     extensions: ['.js', '.jsx']
   },
   output: {
-    path: path.join(__dirname, '/dist'),
+    path: path.join(__dirname, '/public/react-redux/dist'),
     filename: '[name].js',
     //publicPath: 'http://localhost:8080'
   },
   plugins: [
-    new webpack.HotModuleReplacementPlugin()
+    new webpack.HotModuleReplacementPlugin(),
+
   ],
   module: {
     rules: [
