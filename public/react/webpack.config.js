@@ -28,14 +28,15 @@ module.exports = {
             "./setState/javascript/setState.js",
         ],
         "basic": './react_test/basic/index.js',
-        "react": '../../src/react/React.js'
+        "react": '../../src/react/React.js',
+        "resetProps": './resetProps.js'
     },
   resolve: {
     alias: {
-      'react': path_React,
+      //'react': path_React,
       'react-router':path_ReactRouter,
       'babel-polyfill':path_polyfill,
-      'react-dom': path_ReactDOM
+      //'react-dom': path_ReactDOM
     },
     extensions: ['.js', '.jsx']
   },
